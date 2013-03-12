@@ -1322,8 +1322,8 @@ typedef NS_ENUM(NSInteger, CSMessageType)
     {
         NSString *name     = [[fileData sourcePath] lastPathComponent];
         NSString *linkName = [name gtm_stringByEscapingForHTML];
-        NSString *link     = [[name stringByAppendingPathExtension:@"html"]
-                              stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        NSString *link     = [[[name stringByAppendingPathExtension:@"html"]
+                              stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding] stringByReplacingOccurrencesOfString:@"+" withString:@"-"];
         float percent;
         [fileData coverageTotalLines:NULL
                            codeLines:NULL
@@ -1443,7 +1443,7 @@ typedef NS_ENUM(NSInteger, CSMessageType)
         @autoreleasepool {
             NSString *sourcePath     = [fileData sourcePath];
             NSString *fileName       = [sourcePath lastPathComponent];
-            NSString *htmlFileName   = [fileName stringByAppendingPathExtension:@"html"];
+            NSString *htmlFileName   = [[fileName stringByAppendingPathExtension:@"html"] stringByReplacingOccurrencesOfString:@"+" withString:@"-"];
             NSString *coverageString = [transformer transformedValue:fileData];
             sourcePath     = [sourcePath gtm_stringByEscapingForHTML];
             fileName       = [fileName gtm_stringByEscapingForHTML];
